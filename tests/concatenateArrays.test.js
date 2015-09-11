@@ -10,6 +10,6 @@ describe('concatenateArrays', function() {
 		expect(function() {functions.concatenateArrays(123) }).to.throw('Invalid Input');
 	})
 	it('should contain two arrays that concatenate into one', function() {
-		expect(functions.concatenateArrays).to.deep.equal(['a']);
+		expect(functions.concatenateArrays).to.be.instanceOf('array');
 	})
 });

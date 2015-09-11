@@ -1,4 +1,6 @@
 'use strict';
+var _ = require('lodash');
+
 
 /*
  * PROBLEM `checkData`: (normal)
@@ -28,7 +30,12 @@ function checkData(inputString) {
  * If the input is invalid throw an 'Invalid Input' exception.
  */
 function concatenateArrays(a, b) {
-	// your code goes here
+	if(typeof a !== 'array' || typeof b !== 'array') {
+		throw ('Invalid Input');
+	}
+	var arrayAB = a.concat(b);
+
+	return arrayAB;
 }
 
 /*
@@ -41,7 +48,17 @@ function concatenateArrays(a, b) {
  * If the input is invalid throw an 'Invalid Input' exception.
  */
 function fixProperNoun(noun) {
-	// your code goes here
+	if(typeof noun !== 'string') {
+		throw ('invalid Input');
+	}
+
+	if ((noun.charAt(0) === noun.charAt(0).toUpperCase()) === false) {
+		var correctNoun = noun.charAt(0).toUpperCase();
+		var newNoun = noun.slice(1, noun.length);
+		var fixed = correctNoun += newNoun;
+		return fixed;
+	} 
+
 }
 
 /*
@@ -52,7 +69,11 @@ function fixProperNoun(noun) {
  * If the input is invalid throw an 'Invalid Input' exception.
  */
 function sortLetters(inputString) {
-	// your code goes here
+	if(typeof inputString !== 'string') {
+		throw ('Invalid Input: Input must be a string value')
+	};
+	var newInput = inputString.toLowerCase().split('').sort().join('');
+	return newInput;
 }
 
 /*
@@ -63,7 +84,16 @@ function sortLetters(inputString) {
  * If the input is invalid throw an 'Invalid Input' exception.
  */
 function absVal(integer) {
-	// your code goes here
+	if (typeof integer !== 'number') {
+		throw ('Invalid Input: Input must be a number');
+	}
+	if (integer < 0) {
+		var fixNeg = integer * -1;
+		console.log(fixNeg);
+	} else {
+		var fix = integer * 1;
+		console.log(fix);
+	}
 }
 
 /*
@@ -74,7 +104,17 @@ function absVal(integer) {
  * If the input is invalid throw an 'Invalid Input' exception.
  */
 function myMin(integer1, integer2) {
-	// your code goes here
+	if (typeof integer1 !== 'number' || typeof integer2 !== 'number') {
+		throw ('Invalid Input: Input must be a number');
+	}
+	var myMinArray = [integer1, integer2];
+	var nowLow = 1000000;
+	for (var intSpot = 0; intSpot < myMinArray.length; intSpot++) {
+		if (myMinArray[intSpot] < nowLow) {
+			nowLow = myMinArray[intSpot];
+		}	
+	}
+	return nowLow;
 }
 
 /*
@@ -87,7 +127,20 @@ function myMin(integer1, integer2) {
  * Insane mode: do this without using a for loop.
  */
 function myMax(intArray) {
-	// your code goes here
+	if (typeof intArray !== 'object') {
+		throw ('Invalid Input: Input must be an array');
+	}
+	var nowHigh = 0;
+	for (var intSpot = 0; intSpot < intArray.length; intSpot++) {
+		if (isNaN(intArray[intSpot])) {
+			throw ('Invalid Input: Array elements must only be numbers');
+		}
+		if (intArray[intSpot] > nowHigh) {
+			nowHigh = intArray[intSpot];
+			
+		}	
+	}
+	return nowHigh;
 }
 /*
  * PROBLEM `getMonth`: (normal)
@@ -101,7 +154,15 @@ function myMax(intArray) {
  * If the input is invalid throw an 'Invalid Input' exception.
  */
 function getMonth(integer) {
-	// your code goes here
+	if (integer > 12 || integer < 1) {
+		throw ('Invalid Input: Input must be a number within 0 and 13');
+	}
+	if (typeof integer !== 'number') {
+		throw ('Invalid Input: Input must be a number');
+	}
+	var monthIs = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'Novemeber', 'December'];
+	console.log(monthIs[integer - 1]);
+	return monthIs[integer - 1];
 }
 /*
  * PROBLEM `randomElement`: (normal)
@@ -109,8 +170,13 @@ function getMonth(integer) {
  * returns one randomly selected value from that array.
  */
 function randomElement(values) {
-	// your code goes here
-}
+
+	function getRandomInt(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	};
+	console.log(values[getRandomInt(0, values.length-1)]);
+	return values[getRandomInt(0, values.length-1)];
+};
 /*
  * PROBLEM `studentPairs`: (normal)
  * Create a javascript function called `studentPairs` that takes an array of
@@ -118,7 +184,45 @@ function randomElement(values) {
  * (array of arrays).
  */
 function studentPairs(studentNames) {
-	// your code goes here
+	if(!_.isArray(studentNames)) {
+		throw 'Invalid Input';
+	}
+	var max = Math.floor(studentNames.length/2);
+
+	for(var studentNumber = 0; studentNumber < studentNames.length; studentNumber++) {
+		var currentStudent = studentNames[studentNumber];
+		if (!_isString(currentStudent)) {
+			throw 'Invalid Input: Student must be a string';
+		}
+	}
+
+	for (var pairNum = 0; pairNum < max; pairNum++) {
+		var studentNumber1 = getRandomInt(0, studentNames.length-1);
+		var studentName1 = studentNames.splice(studentNumber1, 1);
+
+		var studentNumber2 = getRandomInt(0, studentNames.length-1);
+		var studentName2 = studentNames.splice(studentNumber2, 1);
+
+		var pairs = [];
+
+		pairs.push([
+			studentName1[0],
+			studentName2[0]
+		])
+		// pairs.push(studentName1.concat(studentName2));
+	}
+
+	if (studentNames.length > 0) {
+		var pairNumber = getRandomInt(0, pairs.length-1);
+		pairs[pairNumber].push(studentNames[0]);
+	}
+
+	
+
+	function getRandomInt(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	return pairs;
 }
 /*
  * PROBLEM `sumSquares`: (normal)
@@ -149,7 +253,20 @@ function findMaxDiff(element1, element2) {
  * If the input is invalid throw an 'Invalid Input' exception.
  */
 function insertDashes(sentence) {
-	// your code goes here
+	if (typeof sentence !== 'string') {
+		throw ('Invalid Input: Input must be a string value');
+	}
+
+	var dashArray = sentence.split('');
+	console.log(dashArray);
+
+	for (var dashSpot = 1; dashSpot < dashArray.length; dashSpot+=2) {
+		dashArray.splice(dashSpot, 0, '-');
+
+	}
+	var newSentence = dashArray.join('');
+	console.log(newSentence);
+	return newSentence;
 }
 /*
  * PROBLEM `mySubstring`: (normal)
@@ -162,8 +279,19 @@ function insertDashes(sentence) {
  *
  * If the input is invalid throw an 'Invalid Input' exception.
  */
-function mySubstring(sampleString) {
-	// your code goes here
+function mySubstring(sampleString, integer1, integer2) {
+	if (typeof sampleString !== 'string') {
+		throw ('Invalid Input: First element must be a string value');
+	}
+	if (typeof integer1 !== 'number' || typeof integer2 !== 'number') {
+		throw ('Invalid Input: Second and third element must be a number');
+	}
+	if (integer1 > sampleString.length-1 || integer2 > sampleString.length-integer1-1) {
+		throw ('Invalid Input: integers cannot be outside the length of element')
+	}
+	var subString = sampleString.split('').splice(integer1, integer2).join('');
+	return subString;
+
 }
 /*
  * PROBLEM `splitSwap`: (hard)

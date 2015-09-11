@@ -13,6 +13,10 @@ describe('studentPairs', function() {
 		expect(functions.studentPairs([])).to.be.an('array');
 	})
 	it('should return two students', function() {
+		console.log(pairs);
 		expect(functions.studentPairs(['Aaron', 'Sam'])).to.have.length.of.at.least(2);
+	})
+	it('should not allow non-string students', function() {
+		expect(functions.studentPairs([1, 2, 3])).to.throw('Invalid Input');
 	})
 });
